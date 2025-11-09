@@ -83,18 +83,18 @@
             const message = document.querySelector('.message');
             const heart = document.querySelector('.heart');
             
-            // Initialize heart state
-            heart.classList.add('beating');
-            message.classList.add('closed', 'no-anim');
-            
             // Heart click functionality
             heart.addEventListener('click', function() {
                 if (!messageState.checked) {
-                    // Open the message
+                    // OPEN the message
+                    console.log("Opening message...");
                     messageState.checked = true;
-                    message.classList.remove('closed', 'no-anim');
+                    
+                    // Reset classes and start open animation
+                    message.classList.remove('closed', 'no-anim', 'closeNor');
                     message.classList.add('openNor');
-                    heart.classList.remove('beating');
+                    
+                    heart.classList.remove('beating', 'closeHer');
                     heart.classList.add('openHer');
                     
                     // Remove animation classes after animation completes
@@ -104,15 +104,20 @@
                         heart.classList.remove('openHer');
                         heart.classList.add('openedHer');
                     }, 2000);
+                    
                 } else {
-                    // Close the message
+                    // CLOSE the message
+                    console.log("Closing message...");
                     messageState.checked = false;
+                    
+                    // Start close animation
                     message.classList.remove('no-anim');
                     message.classList.add('closeNor');
+                    
                     heart.classList.remove('openedHer');
                     heart.classList.add('closeHer');
                     
-                    // Add back beating animation after closing
+                    // Reset to initial state after animation completes
                     setTimeout(() => {
                         message.classList.remove('closeNor');
                         message.classList.add('closed', 'no-anim');
