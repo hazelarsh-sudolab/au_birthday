@@ -79,14 +79,52 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        // Heart Animation Script
         document.addEventListener('DOMContentLoaded', function() {
+            const messageState = document.getElementById('messageState');
+            const message = document.querySelector('.message');
+            const heart = document.querySelector('.heart');
+            
+            // Heart click functionality
+            heart.addEventListener('click', function() {
+                if (!messageState.checked) {
+                    // Open the message
+                    messageState.checked = true;
+                    message.classList.remove('closed', 'no-anim');
+                    message.classList.add('openNor');
+                    heart.classList.remove('beating');
+                    heart.classList.add('openHer');
+                    
+                    // Remove animation classes after animation completes
+                    setTimeout(() => {
+                        message.classList.remove('openNor');
+                        message.classList.add('no-anim');
+                        heart.classList.remove('openHer');
+                        heart.classList.add('openedHer');
+                    }, 2000);
+                } else {
+                    // Close the message
+                    messageState.checked = false;
+                    message.classList.remove('no-anim');
+                    message.classList.add('closeNor');
+                    heart.classList.remove('openedHer');
+                    heart.classList.add('closeHer');
+                    
+                    // Add back beating animation after closing
+                    setTimeout(() => {
+                        message.classList.remove('closeNor');
+                        message.classList.add('closed', 'no-anim');
+                        heart.classList.remove('closeHer');
+                        heart.classList.add('beating');
+                    }, 2000);
+                }
+            });
+
+            // Music functionality
             const bgMusic = document.getElementById('bgMusic');
             const playBtn = document.getElementById('playBtn');
             const stopBtn = document.getElementById('stopBtn');
             const nextPageBtn = document.getElementById('nextPageBtn');
-            
-            // Initialize music state
-            let musicInitialized = false;
             
             // Check if music was playing on previous page
             const musicPlaying = localStorage.getItem('musicPlaying') === 'true';
@@ -95,21 +133,16 @@
             // Auto-play music if it was playing before
             if (musicPlaying) {
                 bgMusic.currentTime = musicTime;
-                // Use a user gesture to start playback if needed
                 const tryPlay = () => {
                     bgMusic.play().then(() => {
                         playBtn.classList.add('hidden');
                         stopBtn.classList.remove('hidden');
-                        musicInitialized = true;
                     }).catch(e => {
                         console.log("Autoplay prevented, waiting for user interaction");
-                        // Show play button for user to start manually
                         playBtn.classList.remove('hidden');
                         stopBtn.classList.add('hidden');
                     });
                 };
-                
-                // Try to play immediately, if fails, wait for user interaction
                 tryPlay();
             }
             
@@ -119,7 +152,6 @@
                     localStorage.setItem('musicPlaying', 'true');
                     playBtn.classList.add('hidden');
                     stopBtn.classList.remove('hidden');
-                    musicInitialized = true;
                 });
             });
             
@@ -133,14 +165,13 @@
             
             // Save music state before navigating to next page
             nextPageBtn.addEventListener('click', function(e) {
-                // Add a small delay to ensure state is saved
                 setTimeout(() => {
                     localStorage.setItem('musicPlaying', !bgMusic.paused);
                     localStorage.setItem('musicTime', bgMusic.currentTime);
                 }, 100);
             });
             
-            // Save music state periodically and on pause/play
+            // Save music state on pause/play
             bgMusic.addEventListener('play', function() {
                 localStorage.setItem('musicPlaying', 'true');
             });
