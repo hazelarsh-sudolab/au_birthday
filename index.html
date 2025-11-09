@@ -26,12 +26,12 @@
             <p class="instruction">Click the "❤️"</p>
             <div class="confession-container">
                 <label>
-                    <div class="heart">
+                    <div class="heart beating">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg">
                     </div>
                     <input id="messageState" type="checkbox" style="display:none"/>
                 </label>
-                <div class="message">
+                <div class="message closed">
                     <h1 style="font-family: 'Dancing Script', cursive; font-size: 38px; letter-spacing: 1.1px;">Dear Umairah,</h1>
                     <p style="font-size: 14px; line-height: 1.1;">
                         <br><br>
@@ -50,7 +50,6 @@
                         <span style="display: inline-block; text-indent: 2em;">
                             A day in honor of life's remarkable connections, the ones that shape us and help us grow. It is a celebration of you, and the beautiful difference you make.
                         </span>
-
                     </p>
                     <br>
                     <div class="sincere">
@@ -77,13 +76,16 @@
         </audio>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // Heart Animation Script
         document.addEventListener('DOMContentLoaded', function() {
+            // Heart Animation
             const messageState = document.getElementById('messageState');
             const message = document.querySelector('.message');
             const heart = document.querySelector('.heart');
+            
+            // Initialize heart state
+            heart.classList.add('beating');
+            message.classList.add('closed', 'no-anim');
             
             // Heart click functionality
             heart.addEventListener('click', function() {
