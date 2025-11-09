@@ -19,87 +19,38 @@
         <div id="container3D"></div>
     </main>
 
-    <!-- Music Control for second page - Single styled button -->
-    <div class="music-control">
-        <button id="musicToggle" class="music-toggle-btn">🔇 Music</button>
-        <audio id="bgMusic" loop>
-            <source src="always_on_my_mind.mp3.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
+    <!-- Audio element only (no visible button) -->
+    <audio id="bgMusic" loop>
+        <source src="always_on_my_mind.mp3.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
     <script type="module" src="js/page.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const bgMusic = document.getElementById('bgMusic');
-            const musicToggle = document.getElementById('musicToggle');
             
             // Check if music was playing on previous page
             const musicPlaying = localStorage.getItem('musicPlaying') === 'true';
             const musicTime = parseFloat(localStorage.getItem('musicTime')) || 0;
             
-            // Initialize music state and button
-            let isPlaying = musicPlaying;
-            
-            // Set initial button state
-            updateButtonState();
-            
             // Auto-play music if it was playing before
             if (musicPlaying) {
                 bgMusic.currentTime = musicTime;
                 const tryPlay = () => {
-                    bgMusic.play().then(() => {
-                        isPlaying = true;
-                        updateButtonState();
-                    }).catch(e => {
-                        console.log("Autoplay prevented, waiting for user interaction");
-                        isPlaying = false;
-                        updateButtonState();
+                    bgMusic.play().catch(e => {
+                        console.log("Autoplay prevented, music will start when user interacts with first page");
                     });
                 };
                 tryPlay();
             }
             
-            // Toggle button functionality
-            musicToggle.addEventListener('click', function() {
-                if (isPlaying) {
-                    bgMusic.pause();
-                    isPlaying = false;
-                } else {
-                    bgMusic.play().then(() => {
-                        isPlaying = true;
-                    }).catch(e => {
-                        console.log("Play failed:", e);
-                        isPlaying = false;
-                    });
-                }
-                updateButtonState();
-                localStorage.setItem('musicPlaying', isPlaying.toString());
-            });
-            
-            // Update button appearance based on play state
-            function updateButtonState() {
-                if (isPlaying) {
-                    musicToggle.textContent = '🔊 Music';
-                    musicToggle.style.backgroundColor = 'white';
-                    musicToggle.style.color = 'red';
-                } else {
-                    musicToggle.textContent = '🔇 Music';
-                    musicToggle.style.backgroundColor = 'red';
-                    musicToggle.style.color = 'white';
-                }
-            }
-            
             // Save music state on pause/play
             bgMusic.addEventListener('play', function() {
-                isPlaying = true;
-                updateButtonState();
                 localStorage.setItem('musicPlaying', 'true');
             });
             
             bgMusic.addEventListener('pause', function() {
-                isPlaying = false;
-                updateButtonState();
                 localStorage.setItem('musicPlaying', 'false');
             });
             
