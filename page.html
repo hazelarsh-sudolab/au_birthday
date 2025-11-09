@@ -40,19 +40,33 @@
             const musicPlaying = localStorage.getItem('musicPlaying') === 'true';
             const musicTime = parseFloat(localStorage.getItem('musicTime')) || 0;
             
+            // Auto-play music if it was playing before
             if (musicPlaying) {
                 bgMusic.currentTime = musicTime;
-                bgMusic.play().catch(e => console.log("Autoplay prevented:", e));
-                playBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
+                // Use a user gesture to start playback if needed
+                const tryPlay = () => {
+                    bgMusic.play().then(() => {
+                        playBtn.classList.add('hidden');
+                        stopBtn.classList.remove('hidden');
+                    }).catch(e => {
+                        console.log("Autoplay prevented, waiting for user interaction");
+                        // Show play button for user to start manually
+                        playBtn.classList.remove('hidden');
+                        stopBtn.classList.add('hidden');
+                    });
+                };
+                
+                // Try to play immediately, if fails, wait for user interaction
+                tryPlay();
             }
             
             // Play button functionality
             playBtn.addEventListener('click', function() {
-                bgMusic.play();
-                localStorage.setItem('musicPlaying', 'true');
-                playBtn.classList.add('hidden');
-                stopBtn.classList.remove('hidden');
+                bgMusic.play().then(() => {
+                    localStorage.setItem('musicPlaying', 'true');
+                    playBtn.classList.add('hidden');
+                    stopBtn.classList.remove('hidden');
+                });
             });
             
             // Stop button functionality
@@ -63,12 +77,27 @@
                 stopBtn.classList.add('hidden');
             });
             
-            // Save music state periodically
+            // Save music state on pause/play
+            bgMusic.addEventListener('play', function() {
+                localStorage.setItem('musicPlaying', 'true');
+            });
+            
+            bgMusic.addEventListener('pause', function() {
+                localStorage.setItem('musicPlaying', 'false');
+            });
+            
+            // Update current time every second when playing
             setInterval(function() {
                 if (!bgMusic.paused) {
                     localStorage.setItem('musicTime', bgMusic.currentTime);
                 }
             }, 1000);
+            
+            // Also save time when user leaves the page
+            window.addEventListener('beforeunload', function() {
+                localStorage.setItem('musicPlaying', !bgMusic.paused);
+                localStorage.setItem('musicTime', bgMusic.currentTime);
+            });
         });
     </script>
 </body>
