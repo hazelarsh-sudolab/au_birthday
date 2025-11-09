@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: 'Fredoka', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-image: url('default-background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: black;
+    min-height: 100vh;
+    line-height: 1.5;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* GRADIENT & LAYER BLUR EFFECT */
+.image-gradient {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.layer-blur {
+    height: 0;
+    width: 30rem;
+    position: absolute;
+    top: 20%;
+    right: 0;
+    box-shadow: 0 0 700px 15px white;
+    rotate: -30deg;
+    z-index: -1;
+}
+
+/* CONTAINER */
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 0rem;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 5rem;
+    z-index: 999;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* HEART SECTION */
+.heart-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.instruction{
+    position: absolute;
+    font-size: 1.6rem;
+    color: rgb(255, 0, 0);
+    top: 7.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    text-shadow: 0 0 10px white, 
+                 0 0 20px white,
+                 0 0 30px white;
+}
+
+.confession-container {
+    position: relative;
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heart {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    transition: transform 2s;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.heart > img {
+    width: 50px;
+    height: auto;
+    animation-name: beat;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+.message {
+    padding: 25px;
+    background-color: #eee;
+    font-family: 'Fredoka', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-optical-sizing: auto;
+    font-size: clamp(16px, 10vw, 17px);
+    text-align: justify;
+    line-height: 1.5em;
+    width: 80%;
+    max-width: 550px;
+    height: 78%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    animation-name: openmsg;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-play-state: paused;
+    animation-fill-mode: forwards;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-radius: 5px;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+ 
+.message .sincere{
+    text-align: left;
+    font-family: "Cinzel, serif";
+    font-size: 14px;
+    line-height: 1.2em;
+}
+
+.message .sincere p{
+    margin: 0;
+}
+
+@keyframes beat {
+    0% { width: 50px; }
+    25% { width: 58px; }
+    30% { width: 50px; }
+    50% { width: 45px; }
+    60% { width: 50px; }
+    75% { width: 58px; }
+    100% { width: 50px; }
+}
+
+@keyframes openmsg {
+    0% { height: 0px; padding: 0px 20px; }
+    100% { height: 75%; padding: 20px 20px; }
+}
+
+@keyframes heartMove {
+    0% { top: 50% }
+    100% { top: 85%; transform: translate(-50%, 0); }
+}
+
+.openNor {
+    animation-direction: normal;
+    animation-play-state: running;
+}
+
+.closeNor {
+    animation-direction: reverse;
+    animation-play-state: running;
+}
+
+.no-anim {
+    animation: none;
+}
+
+.closed {
+    height: 0px;
+    padding: 0px 20px;
+}
+
+.bottom {
+    bottom: 5px;
+}
+
+.openHer {
+    animation-name: heartMove;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-play-state: running;
+    animation-fill-mode: forwards;
+}
+
+.closeHer {
+    animation-name: heartMove;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-play-state: running;
+    animation-direction: reverse;
+    animation-fill-mode: forwards;
+}
+
+.beating > img {
+    animation-name: beat;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+.openedHer {
+    top: 85%;
+    transform: translate(-50%, 0);
+}
+
+/* CENTERED BUTTON AT BOTTOM */
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 2rem;
+}
+
+.btn-signing {
+    background-color: red;
+    color: white;
+    padding: 1rem 5rem;
+    border-radius: 15px;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+}
+
+.btn-signing:hover {
+    background-color: white;
+    color: red;
+}
+
+/* MUSIC CONTROL */
+.music-control {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.music-btn {
+    background: none;
+    color: black;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0;
+}
+
+.hidden {
+    display: none;
+}

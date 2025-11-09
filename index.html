@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Umairah!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=DM+Serif+Display:ital@0;1&family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background and light effects -->
+    <img class="image-gradient" src="default-background.png" alt="gradient">
+    <div class="layer-blur"></div>
+
+    <div class="container">
+        <!-- Header section -->
+        <header>
+            <h1 class="logo">Happy Birthday!!!</h1>
+        </header>
+
+        <!-- Heart Button Section (Visible by default) -->
+        <div class="heart-section">
+            <p class="instruction">Click the "❤️"</p>
+            <div class="confession-container">
+                <label>
+                    <div class="heart">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg">
+                    </div>
+                    <input id="messageState" type="checkbox" style="display:none"/>
+                </label>
+                <div class="message">
+                    <h1 style="font-family: 'Dancing Script', cursive; font-size: 38px; letter-spacing: 1.1px;">Dear Umairah,</h1>
+                    <p style="font-size: 14px; line-height: 1.1;">
+                        <br><br>
+                        <span style="display: inline-block; text-indent: 2em;">
+                            Strangers we were, once upon a time, yet not truly unfamiliar, a presence that felt deeply known from the very start, as if we were simply remembering each other.
+                        </span>
+                        <br><br>
+                        <span style="display: inline-block; text-indent: 2em;">
+                            Like a page I was always meant to find, one I never realized was quietly absent from my story, waiting to complete its narrative.
+                        </span>
+                        <br><br>
+                        <span style="display: inline-block; text-indent: 2em;">
+                            Then, new perspectives began to gently color my world with unexpected hues, and old views gradually transformed into brighter understanding, illuminating paths I hadn't seen before.
+                        </span>
+                        <br><br>
+                        <span style="display: inline-block; text-indent: 2em;">
+                            A day in honor of life's remarkable connections, the ones that shape us and help us grow. It is a celebration of you, and the beautiful difference you make.
+                        </span>
+
+                    </p>
+                    <br>
+                    <div class="sincere">
+                        <p style="font-family: 'Dancing Script', cursive; font-size: 24px;"> Sincerely,</p>
+                        <p>Fairus</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Centered button at the bottom -->
+        <div class="btn-container">
+            <a href="page.html" class="btn-signing">Press Here After The Heart Button!</a>
+        </div>
+    </div>
+
+    <!-- Music Control -->
+    <div class="music-control">
+        <button id="playBtn" class="music-btn">▶</button>
+        <button id="stopBtn" class="music-btn hidden">■</button>
+        <audio id="bgMusic" loop autoplay>
+            <source src="always_on_my_mind.mp3.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
