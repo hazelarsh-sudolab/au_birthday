@@ -19,10 +19,9 @@
         <div id="container3D"></div>
     </main>
 
-    <!-- Music Control for second page -->
+    <!-- Music Control for second page - Single styled button -->
     <div class="music-control">
-        <button id="playBtn" class="music-btn">▶</button>
-        <button id="stopBtn" class="music-btn hidden">■</button>
+        <button id="musicToggle" class="music-toggle-btn">🔇 Music</button>
         <audio id="bgMusic" loop>
             <source src="always_on_my_mind.mp3.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
@@ -33,56 +32,74 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const bgMusic = document.getElementById('bgMusic');
-            const playBtn = document.getElementById('playBtn');
-            const stopBtn = document.getElementById('stopBtn');
+            const musicToggle = document.getElementById('musicToggle');
             
             // Check if music was playing on previous page
             const musicPlaying = localStorage.getItem('musicPlaying') === 'true';
             const musicTime = parseFloat(localStorage.getItem('musicTime')) || 0;
             
+            // Initialize music state and button
+            let isPlaying = musicPlaying;
+            
+            // Set initial button state
+            updateButtonState();
+            
             // Auto-play music if it was playing before
             if (musicPlaying) {
                 bgMusic.currentTime = musicTime;
-                // Use a user gesture to start playback if needed
                 const tryPlay = () => {
                     bgMusic.play().then(() => {
-                        playBtn.classList.add('hidden');
-                        stopBtn.classList.remove('hidden');
+                        isPlaying = true;
+                        updateButtonState();
                     }).catch(e => {
                         console.log("Autoplay prevented, waiting for user interaction");
-                        // Show play button for user to start manually
-                        playBtn.classList.remove('hidden');
-                        stopBtn.classList.add('hidden');
+                        isPlaying = false;
+                        updateButtonState();
                     });
                 };
-                
-                // Try to play immediately, if fails, wait for user interaction
                 tryPlay();
             }
             
-            // Play button functionality
-            playBtn.addEventListener('click', function() {
-                bgMusic.play().then(() => {
-                    localStorage.setItem('musicPlaying', 'true');
-                    playBtn.classList.add('hidden');
-                    stopBtn.classList.remove('hidden');
-                });
+            // Toggle button functionality
+            musicToggle.addEventListener('click', function() {
+                if (isPlaying) {
+                    bgMusic.pause();
+                    isPlaying = false;
+                } else {
+                    bgMusic.play().then(() => {
+                        isPlaying = true;
+                    }).catch(e => {
+                        console.log("Play failed:", e);
+                        isPlaying = false;
+                    });
+                }
+                updateButtonState();
+                localStorage.setItem('musicPlaying', isPlaying.toString());
             });
             
-            // Stop button functionality
-            stopBtn.addEventListener('click', function() {
-                bgMusic.pause();
-                localStorage.setItem('musicPlaying', 'false');
-                playBtn.classList.remove('hidden');
-                stopBtn.classList.add('hidden');
-            });
+            // Update button appearance based on play state
+            function updateButtonState() {
+                if (isPlaying) {
+                    musicToggle.textContent = '🔊 Music';
+                    musicToggle.style.backgroundColor = 'white';
+                    musicToggle.style.color = 'red';
+                } else {
+                    musicToggle.textContent = '🔇 Music';
+                    musicToggle.style.backgroundColor = 'red';
+                    musicToggle.style.color = 'white';
+                }
+            }
             
             // Save music state on pause/play
             bgMusic.addEventListener('play', function() {
+                isPlaying = true;
+                updateButtonState();
                 localStorage.setItem('musicPlaying', 'true');
             });
             
             bgMusic.addEventListener('pause', function() {
+                isPlaying = false;
+                updateButtonState();
                 localStorage.setItem('musicPlaying', 'false');
             });
             
