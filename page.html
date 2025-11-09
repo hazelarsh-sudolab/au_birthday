@@ -19,6 +19,57 @@
         <div id="container3D"></div>
     </main>
 
+    <!-- Music Control for second page -->
+    <div class="music-control">
+        <button id="playBtn" class="music-btn">▶</button>
+        <button id="stopBtn" class="music-btn hidden">■</button>
+        <audio id="bgMusic" loop>
+            <source src="always_on_my_mind.mp3.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
     <script type="module" src="js/page.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgMusic = document.getElementById('bgMusic');
+            const playBtn = document.getElementById('playBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            
+            // Check if music was playing on previous page
+            const musicPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const musicTime = parseFloat(localStorage.getItem('musicTime')) || 0;
+            
+            if (musicPlaying) {
+                bgMusic.currentTime = musicTime;
+                bgMusic.play().catch(e => console.log("Autoplay prevented:", e));
+                playBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+            }
+            
+            // Play button functionality
+            playBtn.addEventListener('click', function() {
+                bgMusic.play();
+                localStorage.setItem('musicPlaying', 'true');
+                playBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+            });
+            
+            // Stop button functionality
+            stopBtn.addEventListener('click', function() {
+                bgMusic.pause();
+                localStorage.setItem('musicPlaying', 'false');
+                playBtn.classList.remove('hidden');
+                stopBtn.classList.add('hidden');
+            });
+            
+            // Save music state periodically
+            setInterval(function() {
+                if (!bgMusic.paused) {
+                    localStorage.setItem('musicTime', bgMusic.currentTime);
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
