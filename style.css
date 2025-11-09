@@ -149,7 +149,14 @@ header h1 {
     overflow: scroll;
     scrollbar-width: none;
 }
- 
+
+/* Ensure the message is initially hidden */
+.message.closed {
+    height: 0;
+    padding: 0 20px;
+    overflow: hidden;
+}
+
 .message .sincere{
     text-align: left;
     font-family: "Cinzel, serif";
@@ -253,6 +260,8 @@ header h1 {
     transition: background-color 0.2s ease;
     cursor: pointer;
     font-family: 'Fredoka', sans-serif;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .btn-signing:hover {
