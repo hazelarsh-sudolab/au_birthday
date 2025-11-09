@@ -101,24 +101,19 @@ function createInstructions() {
     document.body.appendChild(instructions);
 }
 
-// Loading progress functions
-function updateLoadingProgress(percent) {
-    let progressBar = document.getElementById('loadingProgress');
-    if (!progressBar) {
-        progressBar = document.createElement('div');
-        progressBar.id = 'loadingProgress';
-        document.body.appendChild(progressBar);
-    }
-    progressBar.textContent = `Loading Birthday Cake: ${percent}%`;
-    progressBar.style.display = 'block';
+function showLoadingMessage() {
+    const loadingMsg = document.createElement('div');
+    loadingMsg.id = 'loadingMessage';
+    loadingMsg.textContent = '🎂 Loading birthday cake...';
+    document.body.appendChild(loadingMsg);
 }
 
-function hideLoadingProgress() {
-    const progressBar = document.getElementById('loadingProgress');
-    if (progressBar) {
+function hideLoadingMessage() {
+    const loadingMsg = document.getElementById('loadingMessage');
+    if (loadingMsg) {
         setTimeout(() => {
-            progressBar.style.display = 'none';
-        }, 1000);
+            loadingMsg.style.display = 'none';
+        }, 500);
     }
 }
 
@@ -159,14 +154,11 @@ function loadLocalModel() {
             controls.update();
             
             console.log("🎂 Your birthday cake model loaded!");
-            hideLoadingProgress();
+            hideLoadingMessage();
         },
         function(xhr) {
-            const percent = xhr.lengthComputable ? 
-                (xhr.loaded / xhr.total * 100).toFixed(2) : 
-                (xhr.loaded / (10 * 1024 * 1024) * 100).toFixed(2);
-            console.log(`Loading local model: ${percent}%`);
-            updateLoadingProgress(percent);
+            // Optional: You could show progress here if you want, but it's not needed
+            console.log(`Loaded ${(xhr.loaded / 1024 / 1024).toFixed(2)} MB`);
         },
         function(error) {
             console.error('❌ Failed to load local model:', error);
@@ -203,12 +195,9 @@ function tryAlternativeLoading() {
             scene.add(model);
             controls.target.set(0, 0, 0);
             controls.update();
-            hideLoadingProgress();
+            hideLoadingMessage();
         },
-        function(xhr) {
-            const percent = (xhr.loaded / xhr.total * 100).toFixed(2);
-            updateLoadingProgress(percent);
-        },
+        null, // No progress handler needed
         function(error) {
             console.error('❌ Fallback loading also failed:', error);
             showErrorMessage(`Both loading methods failed. Please check: 
@@ -235,7 +224,7 @@ window.addEventListener('resize', () => {
 // Initialize the application
 function init() {
     createInstructions();
-    updateLoadingProgress(0);
+    showLoadingMessage();
     animate();
     console.log("🚀 3D Birthday Scene initialized");
     
